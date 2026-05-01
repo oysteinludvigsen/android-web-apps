@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atelier Apps</title>
+<meta name="theme-color" content="#1a1815">
+<style>
+:root {
+  --bg:           #1a1815;
+  --surface:      #211e1b;
+  --surface-2:    #2a2622;
+  --border:       #3a342e;
+  --border-focus: #4a4239;
+  --text:         #f0e8d8;
+  --text-muted:   #968c80;
+  --text-dim:     #6a6258;
+  --accent:       #e8a957;
+  --accent-hover: #f2b663;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  min-height: 100svh;
+  padding-bottom: 5rem;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+header {
+  padding: 3.5rem 1.5rem 2.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.wordmark {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.75rem;
+}
+
+header h1 {
+  font-size: clamp(1.6rem, 5vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--accent);
+  line-height: 1.15;
+}
+
+header p {
+  margin-top: 0.6rem;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 34ch;
+  margin-inline: auto;
+  line-height: 1.5;
+}
+
+/* ── Grid ────────────────────────────────────────────── */
+#grid {
+  max-width: 860px;
+  margin: 2.5rem auto 0;
+  padding: 0 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Cards ───────────────────────────────────────────── */
+.card {
+  --app-accent: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+.card:hover {
+  border-color: var(--app-accent);
+  box-shadow: 0 0 0 1px var(--app-accent), 0 4px 20px rgba(0,0,0,0.35);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.app-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: var(--surface-2);
+}
+
+.app-icon-placeholder {
+  width: 58px;
+  height: 58px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--app-accent);
+  background: color-mix(in srgb, var(--app-accent) 14%, var(--surface-2));
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+
+.app-meta { min-width: 0; }
+
+.app-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-short {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-top: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.install-btn {
+  display: block;
+  padding: 0.7rem 1rem;
+  background: var(--app-accent);
+  color: #1a1815;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  transition: filter 0.15s;
+  margin-top: auto;
+}
+
+.install-btn:hover { filter: brightness(1.1); }
+.install-btn:active { filter: brightness(0.95); }
+
+/* ── Skeleton ────────────────────────────────────────── */
+.skeleton {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+.sk-header { display: flex; align-items: center; gap: 0.9rem; }
+
+.sk-icon {
+  width: 58px; height: 58px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  flex-shrink: 0;
+}
+
+.sk-meta { flex: 1; display: flex; flex-direction: column; gap: 0.45rem; }
+
+.sk-bar {
+  height: 13px;
+  border-radius: 4px;
+  background: var(--surface-2);
+}
+
+/* ── State messages ──────────────────────────────────── */
+.state-msg {
+  max-width: 420px;
+  margin: 3.5rem auto;
+  padding: 0 1.5rem;
+  text-align: center;
+  color: var(--text-muted);
+  display: none;
+}
+
+.state-msg h2 {
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.state-msg p { font-size: 0.9rem; line-height: 1.6; }
+
+/* ── Footer ──────────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 2rem 1rem 0;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+
+footer a { color: var(--text-dim); text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="wordmark">Atelier</p>
+  <h1>App Catalog</h1>
+  <p>Open any app in Chrome on Android, then install it to your home screen.</p>
+</header>
+
+<main id="grid">
+  <div class="skeleton">
+    <div class="sk-header">
+      <div class="sk-icon"></div>
+      <div class="sk-meta">
+        <div class="sk-bar" style="width:65%"></div>
+        <div class="sk-bar" style="width:42%"></div>
+      </div>
+    </div>
+    <div class="sk-bar"></div>
+    <div class="sk-bar" style="width:85%"></div>
+    <div class="sk-bar" style="width:60%"></div>
+    <div class="sk-bar" style="height:38px; border-radius:8px;"></div>
+  </div>
+  <div class="skeleton">
+    <div class="sk-header">
+      <div class="sk-icon"></div>
+      <div class="sk-meta">
+        <div class="sk-bar" style="width:55%"></div>
+        <div class="sk-bar" style="width:35%"></div>
+      </div>
+    </div>
+    <div class="sk-bar"></div>
+    <div class="sk-bar" style="width:90%"></div>
+    <div class="sk-bar" style="width:50%"></div>
+    <div class="sk-bar" style="height:38px; border-radius:8px;"></div>
+  </div>
+</main>
+
+<div class="state-msg" id="empty">
+  <h2>No apps yet</h2>
+  <p>Add a folder containing a <code>manifest.json</code> to this repo — it'll appear here automatically.</p>
+</div>
+
+<div class="state-msg" id="error">
+  <h2>Couldn't load apps</h2>
+  <p id="error-detail">The GitHub API may have hit its rate limit (60 req/hr for anonymous calls). Try again in a minute.</p>
+</div>
+
+<footer>
+  Auto-discovered from
+  <a href="https://github.com/oysteinludvigsen/atelier-textedit" target="_blank" rel="noopener">
+    oysteinludvigsen/atelier-textedit
+  </a>
+</footer>
+
+<script>
+const OWNER      = 'oysteinludvigsen';
+const REPO       = 'atelier-textedit';
+const PAGES_ROOT = `https://${OWNER}.github.io/${REPO}`;
+const API        = `https://api.github.com/repos/${OWNER}/${REPO}`;
+
+// Directories that never contain deployable PWAs
+const SKIP = /^(\.github|node_modules|dist|build|out|vendor|coverage|\.cache)\//;
+
+async function run() {
+  const grid    = document.getElementById('grid');
+  const emptyEl = document.getElementById('empty');
+  const errorEl = document.getElementById('error');
+
+  try {
+    // 1 — Resolve default branch
+    const repoMeta  = await ghFetch(API);
+    const branch    = repoMeta.default_branch;
+    const RAW       = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${branch}`;
+
+    // 2 — Full repo tree (one request)
+    const { tree, truncated } = await ghFetch(`${API}/git/trees/${branch}?recursive=1`);
+    if (truncated) console.warn('Repo tree truncated — some apps may be missing.');
+
+    // 3 — Filter to manifest.json blobs
+    const paths = tree
+      .filter(n => n.type === 'blob' && n.path.endsWith('manifest.json') && !SKIP.test(n.path))
+      .map(n => n.path);
+
+    // 4 — Fetch + validate each manifest
+    const settled = await Promise.allSettled(paths.map(p => loadApp(p, RAW)));
+    const apps = settled
+      .filter(r => r.status === 'fulfilled' && r.value !== null)
+      .map(r => r.value);
+
+    grid.innerHTML = '';
+
+    if (!apps.length) { emptyEl.style.display = 'block'; return; }
+
+    apps.forEach(app => grid.appendChild(buildCard(app)));
+
+  } catch (e) {
+    grid.innerHTML = '';
+    document.getElementById('error-detail').textContent = e.message;
+    errorEl.style.display = 'block';
+  }
+}
+
+async function ghFetch(url) {
+  const res = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
+  if (!res.ok) {
+    const remaining = res.headers.get('x-ratelimit-remaining');
+    if (remaining === '0') throw new Error('GitHub API rate limit reached — try again in ~60 minutes.');
+    throw new Error(`GitHub API returned ${res.status} for ${url}`);
+  }
+  return res.json();
+}
+
+async function loadApp(path, RAW) {
+  const res = await fetch(`${RAW}/${path}`);
+  if (!res.ok) return null;
+
+  let mf;
+  try { mf = await res.json(); } catch { return null; }
+
+  // Must have PWA essentials
+  if (!mf.name || !Array.isArray(mf.icons) || !mf.icons.length) return null;
+
+  const dir     = path.includes('/') ? path.split('/').slice(0, -1).join('/') + '/' : '';
+  const baseUrl = dir ? `${PAGES_ROOT}/${dir}` : `${PAGES_ROOT}/`;
+
+  // Pick a display icon: non-maskable 192px preferred
+  const icon = mf.icons.find(i => !/maskable/.test(i.purpose ?? '') && (i.sizes ?? '').startsWith('192'))
+            || mf.icons.find(i => !/maskable/.test(i.purpose ?? ''))
+            || mf.icons[0];
+
+  const iconUrl = icon ? resolveUrl(icon.src, baseUrl) : null;
+
+  return { mf, baseUrl, iconUrl };
+}
+
+function resolveUrl(src, base) {
+  if (/^https?:\/\//.test(src)) return src;
+  return base.replace(/\/$/, '') + '/' + src.replace(/^\.?\/*/, '');
+}
+
+function buildCard({ mf, baseUrl, iconUrl }) {
+  const card = el('article', 'card');
+
+  if (mf.theme_color) card.style.setProperty('--app-accent', mf.theme_color);
+
+  const initials = (mf.short_name || mf.name)
+    .trim().split(/\s+/).slice(0, 2).map(w => w[0].toUpperCase()).join('');
+
+  // Header
+  const hdr = el('div', 'card-header');
+
+  if (iconUrl) {
+    const img = el('img', 'app-icon');
+    img.src = iconUrl;
+    img.alt = '';
+    img.loading = 'lazy';
+    img.onerror = () => img.replaceWith(iconPlaceholder(initials, mf.theme_color));
+    hdr.appendChild(img);
+  } else {
+    hdr.appendChild(iconPlaceholder(initials, mf.theme_color));
+  }
+
+  const meta = el('div', 'app-meta');
+  const h2 = el('h2', 'app-name');
+  h2.textContent = mf.name;
+  meta.appendChild(h2);
+
+  if (mf.short_name && mf.short_name !== mf.name) {
+    const sub = el('div', 'app-short');
+    sub.textContent = mf.short_name;
+    meta.appendChild(sub);
+  }
+  hdr.appendChild(meta);
+  card.appendChild(hdr);
+
+  if (mf.description) {
+    const desc = el('p', 'app-desc');
+    desc.textContent = mf.description;
+    card.appendChild(desc);
+  }
+
+  const btn = el('a', 'install-btn');
+  btn.href = baseUrl;
+  btn.target = '_blank';
+  btn.rel = 'noopener noreferrer';
+  btn.textContent = 'Open & Install';
+  card.appendChild(btn);
+
+  return card;
+}
+
+function iconPlaceholder(initials, themeColor) {
+  const d = el('div', 'app-icon-placeholder');
+  d.textContent = initials;
+  if (themeColor) d.style.setProperty('--app-accent', themeColor);
+  return d;
+}
+
+function el(tag, cls) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  return e;
+}
+
+run();
+</script>
+
+</body>
+</html>
