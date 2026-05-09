@@ -4,7 +4,7 @@
  *   into a Cache so the page can pick them up after the redirect.
  */
 
-const VERSION = 'v1';
+const VERSION = 'v4';
 const APP_CACHE = `atelier-app-${VERSION}`;
 const SHARED_CACHE = 'atelier-shared';   // separate, not versioned
 

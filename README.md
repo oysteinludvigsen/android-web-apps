@@ -48,9 +48,18 @@ chat apps with attachments, etc.) will list **TextEdit** in the share
 sheet. Tap it: TextEdit opens with the file already loaded in a new tab,
 ready to edit.
 
-To save changes back, use **Save** in the toolbar. On Chromium-based
-Android the editor uses the File System Access API where available;
-otherwise it falls back to a normal download into `Downloads/`.
+### Saving back to the original
+
+When you hit **Save** on a file that arrived via Share, TextEdit opens
+the system file picker filtered to the file's extension. Navigate to
+your file, tap it, and it's overwritten in place. From that point on,
+Save writes directly with no further picker — until you close the tab
+or reload, at which point Chrome may re-prompt for write permission per
+the spec's session-permission rules.
+
+This works on Chrome 132+ on Android (early 2025 onward) and on all
+desktop Chromium browsers. On older browsers without the File System
+Access API, Save falls back to a regular download.
 
 ## Updating the app
 
